@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<div style="margin-bottom: 10px;">
+    <h3>Preview</h3>
+    <a type="button" href="/">Go back</a>
+</div>
+<div style="display:flex;">
+    <div>
+        <video height="400" controls id="video_1" style="border: 1px solid black">
+            <source src="{{url_for('static', filename='videos/' + video_name)}}" type="video/mp4">
+        </video>
+        <div>Number of frames :{{ video_1_meta[0]['nb_frames'] }}</div>
+    </div>
+    <div style="margin-left:10px;">
+        <video height="400" id="video_2" style="border: 1px solid black">
+            <source src="{{url_for('static', filename='videos/' + ref_name)}}" type="video/mp4">
+        </video>
+        <div>Number of frames :{{ video_2_meta[0]['nb_frames'] }}</div>
+    </div>
+</div>
+
+
+<script>
+        (function(){
+        let video_1 = document.getElementById('video_1')
+        let video_2 = document.getElementById('video_2')
+        video_1.load()
+        video_2.load()
+        video_1.onplay = () => {
+            video_2.play()
+        }
+        video_1.onpause = () => {
+            video_2.pause()
+        }
+        video_1.ontimeupdate = () => {
+            if (video_1.paused) {
+                video_2.currentTime = video_1.currentTime
+            }
+        }
+        })()
+
+        
+
+
+</script>
+</body>
+
+</html>
